@@ -33,19 +33,20 @@ define(function(require, exports, module) {
     }
 
     ClickModify.prototype.setup = function(){
-        var value = this.trigger.val();
+        var $trigger = $(this.settings.trigger);
+        var value = $trigger.val();
         var textarea = $('<textarea></textarea>');
 
-        var offset = this.trigger.offset();
+        var offset = $trigger.offset();
         var _style = {
             'left': offset.left,
             'top': offset.top,
             'width': this.trigger.width(),
             'height': this.trigger.height(),
         }
-        var style = $.extend(this.style, _style)
+        var style = $.extend(this.settings.style, _style)
         textarea.css(style);
-        textarea.after(this.trigger);
+        textarea.after($trigger);
     }
 
     ClickModify.setup();
