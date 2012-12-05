@@ -4,15 +4,20 @@
 
 click-modify是一个基于seajs的插件.当页面的文本元素被注册了`click-modify`事件后,点击该元素时自动切换为可编辑状态,离开编辑时,自动发起ajax请求提交由后端处理.
 
+*Required Library*: jQuery
+
 ---
 
 ## Getting Start
 
-```javascript
-seajs.use('ClickModify', function(ClickModify){
-    var click_modify = new ClickModify('.trigger');
-    });
-```
+Install tornado:
+
+`pip install tornado`
+
+Start server:
+
+`python server.py`
+
 
 ## Config
 
