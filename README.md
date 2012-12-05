@@ -8,7 +8,11 @@ click-modify是一个基于seajs的插件.当页面的文本元素被注册了`c
 
 ## Getting Start
 
-参看[实例](/examples/)
+```javascript
+seajs.use('ClickModify', function(ClickModify){
+    var click_modify = new ClickModify('.trigger');
+    });
+```
 
 ## Config
 
@@ -20,7 +24,7 @@ click-modify支持配置如下参数:
 
 * action: 后台处理的地址 如 `/post`
 
-* data: 提交时的附加字段 如`{ _csrf_token: 'token'}`
+* data: 提交时的附加字段 如`{ \_csrf_token: 'token'}`
 
 * style: 生成的input或者textarea的样式
 
