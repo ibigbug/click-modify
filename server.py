@@ -24,6 +24,7 @@ class MainHandler(tornado.web.RequestHandler):
         if not key:
             #emulate post fail
             self.write('{"stat":"fail", "msg":"missing argument"}')
+            return
 
         print 'got a post argument key as value %s' % key
         self.write('{"stat":"ok", "msg": "got arg key" }')

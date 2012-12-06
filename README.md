@@ -25,8 +25,6 @@ click-modify支持配置如下参数:
 
 * trigger: 被绑定的元素,同jQuery selector
 
-* name: 提交到后台的变量名 如 `{ name: value }`
-
 * action: 后台处理的地址 如 `/post`
 
 * data: 提交时的附加字段 如`{ \_csrf_token: 'token'}`
@@ -48,7 +46,7 @@ click-modify支持配置如下参数:
 #### html结构
 ````html
 <form action="/post" method="post"> <!--可选的-->
-<p class="trigger">Click Me</p>
+<p class="trigger" name="required">Click Me</p>
 </form>
 ````
 
@@ -67,7 +65,6 @@ seajs.use('ClickModify', function(ClickModify){
     var options = {
         trigger: '.trigger',
         type: 'textarea',
-        name: 'key',
         action: '/post',
         method: 'POST',
         data: {

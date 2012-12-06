@@ -6,8 +6,8 @@
 创建如下html结构
 
 ````html
-<form method="post" action=".">
-<p class="click-modify">Demo Text</p>
+<form method="post" action="."> <!--optionally-->
+<p class="click-modify" name="required">Demo Text</p>
 </form>
 ````
 
