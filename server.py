@@ -15,14 +15,15 @@ class MainHandler(tornado.web.RequestHandler):
         f = open('assets/demo.html')
         content = f.read()
         f.close()
-        self.finish(content)
+        self.write(content)
 
     def post(self):
-        print self.request.arguments
+        print 'got post arguments %s' % self.request.arguments
 
-        key = self.get_argument('key')
+        key = self.get_argument('key1', None)
         if not key:
-            self.finish('{"stat":"fail", "msg":"missing argument"}')
+            #emulate post fail
+            self.write('{"stat":"fail", "msg":"missing argument"}')
 
         print 'got a post argument key as value %s' % key
         self.write('{"stat":"ok", "msg": "got arg key" }')
