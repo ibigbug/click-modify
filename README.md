@@ -4,7 +4,7 @@
 
 click-modify是一个基于seajs的插件.当页面的文本元素被注册了`click-modify`事件后,点击该元素时自动切换为可编辑状态,离开编辑时,自动发起ajax请求提交由后端处理.
 
-*Required Library*: jQuery
+**Required Library**: jQuery
 
 ---
 
@@ -38,46 +38,3 @@ click-modify支持配置如下参数:
 * success: 提交成功时的回调
 
 * error: 出错时的回调
-
-## API
-
-### 示例
-
-#### html结构
-````html
-<form action="/post" method="post"> <!--可选的-->
-<p class="trigger" name="required">Click Me</p>
-</form>
-````
-
-````javascript
-//Basic Usage
-
-seajs.use('ClickModify', function(ClickModify){
-    var click_modify = new ClickModify('.trigger');
-    });
-````
-
-```javascript
-
-//Advanced
-seajs.use('ClickModify', function(ClickModify){
-    var options = {
-        trigger: '.trigger',
-        type: 'textarea',
-        action: '/post',
-        method: 'POST',
-        data: {
-            _csrf: 'csrf',
-            },
-        style: {
-            'color': 'red',
-            },
-        success: function(msg){ alert(msg) },
-        error: function(){ alert('failed') },
-
-        };
-    var click_modify = new ClickModify('.trigger');
-    });
-
-```

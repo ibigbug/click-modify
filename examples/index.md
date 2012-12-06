@@ -23,3 +23,4 @@ type: 'input',
 };
 var click_modify = new ClickModify(options);
 });
+````

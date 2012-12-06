@@ -11,7 +11,6 @@ define("./click-modify/1.0.0/click-modify-debug", ["jquery/1.8.2/jquery-debug"],
 
         var settings = {
             trigger: null,
-            name: null,
             action: null,
             error: null,
             success: null,
@@ -24,7 +23,6 @@ define("./click-modify/1.0.0/click-modify-debug", ["jquery/1.8.2/jquery-debug"],
         if (options) $.extend(settings, options);
         var $trigger = $(settings.trigger);
 
-        settings.name = settings.name || getDefault($trigger).name || 'name';
         settings.action = settings.action || getDefault($trigger).action || '/post';
         settings.method = settings.method || 'POST';
         settings.style = settings.style || {},
@@ -33,7 +31,6 @@ define("./click-modify/1.0.0/click-modify-debug", ["jquery/1.8.2/jquery-debug"],
         settings.data = settings.data || {},
 
         this.settings = settings;
-        this.changed = false;
 
         this.setup();
 
@@ -42,56 +39,66 @@ define("./click-modify/1.0.0/click-modify-debug", ["jquery/1.8.2/jquery-debug"],
     ClickModify.prototype.setup = function(){
         var $trigger = $(this.settings.trigger), _this = this;
         $trigger.addClass(this.settings.prefix);
-        var value = $trigger.html();
 
-        var box
-        if (this.settings.type == 'input'){
-            box = $('<input />');
-        }
-        else {
-            box = $('<textarea></textarea>');
-        }
-        box.attr('id', 'cm-' + new Date().getTime());
 
-        var offset = $trigger.offset();
-        var _style = {
-            'left': offset.left,
-            'top': offset.top,
-            'width': $trigger.width(),
-            'height': $trigger.height(),
-            'display': 'none',
-        }
-        var style = $.extend(this.settings.style, _style)
-        box.css(style);
-        box.val(value);
-        box.insertAfter($trigger).focus();
-        box.change(function(){
-            _this.changed = true;
-        })
-        this.box = box;
+        $.map($trigger, function(each_trigger,i){
 
-        $trigger.click(function(){
-            $(this).hide();
-            _this.box.show();
+            var box;
+            if (_this.settings.type == 'input'){
+                box = $('<input />');
+            }
+            else {
+                box = $('<textarea></textarea>');
+            }
+            box.attr('id', 'cm-' + new Date().getTime());
+            box.attr('for', $(each_trigger).attr('name'));
+            box.addClass('click-modify-box');
+
+            var offset = $(each_trigger).offset();
+            var _style = {
+                'left': offset.left,
+                'top': offset.top,
+                'width': $trigger.width(),
+                'height': $trigger.height(),
+                'display': 'none',
+            }
+            var style = $.extend(_this.settings.style, _style)
+            box.css(style);
+            box.val($(each_trigger).html());
+            $(each_trigger).after(box);
+            each_trigger.box = box;
+
+            box.change(function(){
+                this.changed = true;
+            });
+
+            var data = {};
+            var _name = $(each_trigger).attr('name');
+            data[_name] = $(box).val();
+            $.extend(data, _this.settings.data);
+            box.blur(function(){
+                if (this.changed){
+                    $.ajax({
+                        type: _this.settings.method,
+                        url: _this.settings.action,
+                        data: data,
+                        error: _this.settings.error || function(){},
+                        success: _this.settings.success || function(){},
+                    });
+                    this.changed = false;
+                }
+                $(each_trigger).html(each_trigger.box.val()).show();
+                each_trigger.box.hide();
+            });
+
+            $(each_trigger).click(function(){
+                $(this).hide();
+                this.box.show();
+            });
+
         });
 
-        var data = {}
-        data[this.settings.name] = this.box.val();
-        $.extend(data, this.settings.data);
-        box.blur(function(){
-            if (_this.changed){
-                $.ajax({
-                    type: _this.settings.method,
-                    url: _this.settings.action,
-                    data: data,
-                    error: _this.settings.error || function(){},
-                    success: _this.settings.success || function(){},
-                });
-                _this.changed = false;
-            }
-            $trigger.html(_this.box.val()).show();
-            _this.box.hide();
-        })
+
 
         return this;
     }
