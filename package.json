@@ -1,6 +1,6 @@
 {
     "name": "click-modify",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "root": ".",
     "description": "为页面文本元素提供即使编辑功能",
     "homepage": "https://github.com/ibigbug/click=modify",
