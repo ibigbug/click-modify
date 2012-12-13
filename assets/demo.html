@@ -26,20 +26,14 @@
             seajs.use(['jquery', '/src/click-modify'], function($, ClickModify){
                 var options = {
                     trigger: '.trigger',
-                    action: '/',
-                    method: 'POST',
                     type: 'input',
                     style: {
                         'color': 'red',
                     },
-                    success: function(resp){
-                        alert(resp);
-                    },
-                    error: function(resp) {
-                        alert(resp);
-                    }
                 };
-                var c = new ClickModify(options);
+                var c = new ClickModify(options,function($trigger,$box){
+                    console.log($trigger);
+                });
             });
         </script>
     </body>

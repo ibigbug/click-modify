@@ -2,7 +2,7 @@
     "name": "click-modify",
     "version": "1.0.0",
     "root": ".",
-    "description": "点击文本时自动转换为input或textarea, 离开时自动提交",
+    "description": "为页面文本元素提供即使编辑功能",
     "homepage": "https://github.com/ibigbug/click=modify",
     "author": "",
     "repository": {
