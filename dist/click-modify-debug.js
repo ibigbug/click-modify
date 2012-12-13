@@ -2,33 +2,27 @@ define("./click-modify/1.0.0/click-modify-debug", ["jquery/1.8.2/jquery-debug"],
 
     var $ = require('jquery/1.8.2/jquery-debug');
 
-    function ClickModify(options){
+    function ClickModify(options, callback){
         
         if(!(this instanceof ClickModify)){
-            return new ClickModify(options);
+            return new ClickModify(options, callback=null);
         }
         if(isString(options)) options = {trigger: options};
 
         var settings = {
             trigger: null,
-            action: null,
-            error: null,
-            success: null,
             style: null,
             type: null,
-            data: null,
-            method: null,
+            callback: null,
         }
 
         if (options) $.extend(settings, options);
         var $trigger = $(settings.trigger);
 
-        settings.action = settings.action || getDefault($trigger).action || '/post';
-        settings.method = settings.method || 'POST';
-        settings.style = settings.style || {},
-        settings.prefix = 'click-modified',
-        settings.type = settings.type || 'textarea',
-        settings.data = settings.data || {},
+        settings.style = settings.style || {};
+        settings.type = settings.type || 'textarea';
+        settings.finish = settings.finish || callback|| null;
+        settings.prefix = 'click-modified';
 
         this.settings = settings;
 
@@ -69,26 +63,16 @@ define("./click-modify/1.0.0/click-modify-debug", ["jquery/1.8.2/jquery-debug"],
             each_trigger.box = box;
 
             box.change(function(){
-                this.changed = true;
+                $(each_trigger).html($(this).val());
             });
 
-            var data = {};
-            var _name = $(each_trigger).attr('name');
-            data[_name] = $(box).val();
-            $.extend(data, _this.settings.data);
             box.blur(function(){
-                if (this.changed){
-                    $.ajax({
-                        type: _this.settings.method,
-                        url: _this.settings.action,
-                        data: data,
-                        error: _this.settings.error || function(){},
-                        success: _this.settings.success || function(){},
-                    });
-                    this.changed = false;
+                $(this).hide();
+                $(each_trigger).show();
+                if (_this.settings.finish){
+                    _this.settings.finish($(each_trigger), $(box));
                 }
-                $(each_trigger).html(each_trigger.box.val()).show();
-                each_trigger.box.hide();
+                else return true;
             });
 
             $(each_trigger).click(function(){
@@ -98,20 +82,12 @@ define("./click-modify/1.0.0/click-modify-debug", ["jquery/1.8.2/jquery-debug"],
 
         });
 
-
-
         return this;
     }
 
-    ClickModify.prototype.error = function(callback){
+    ClickModify.prototype.finish = function(callback){
         if(!callback) return this;
-        this.settings.error = callback;
-        return this;
-    }
-
-    ClickModify.prototype.success = function(callback){
-        if(!callback) return this;
-        this.settings.success = callback;
+        this.settings.finish = callback;
         return this;
     }
 
