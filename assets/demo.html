@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Demo</title>
+        <link rel="stylesheet" href="http://python-assets.b0.upaiyun.com/project/typo.css" />
+        <script type="text/javascript" src="http://seajs.org/dist/sea.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Click Modify Demo</h1>
+            <p>This is a project by <a href="http://blog.xiaoba.me">xiaoba</a></p>
+            <div class="cell">
+                <p class="trigger" name="key1">Demo Text(click me)</p>
+                <p class="trigger" name="key2">Multi(click me)</p>
+                <p class="trigger" name="key3">Value(click me)</p>
+            </div>
+        </div>
+        <script type="text/javascript">
+            seajs.config({
+                alias: {
+                    '$': '/assets/jquery.js',
+                    'jquery': '/assets/jquery.js',
+                }
+            });
+            seajs.use(['jquery', '/src/click-modify'], function($, ClickModify){
+                var options = {
+                    trigger: '.trigger',
+                    type: 'input',
+                    style: {
+                        'color': 'red',
+                    },
+                };
+                var c = new ClickModify(options,function($trigger,$box){
+                    console.log($trigger);
+                });
+            });
+        </script>
+    </body>
+</html>
